@@ -6,8 +6,6 @@ import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
 import {StatusBar, View} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import auth from '@react-native-firebase/auth';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,18 +33,7 @@ const Navigator = () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{
-              headerTintColor: 'green',
-              headerRight: () => (
-                <MaterialIcons
-                  name="account-circle"
-                  // style={{marginRight: 10}}
-                  color="green"
-                  size={40}
-                  onPress={() => auth().signOut()}
-                />
-              ),
-            }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>

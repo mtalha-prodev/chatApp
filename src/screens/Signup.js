@@ -60,18 +60,19 @@ const Signup = () => {
           password,
         );
 
+        // UPLOAD USER PIC IN FIREBASE STORAGE
+        const response = storage().ref(`profile/${profile.name}`);
+        await response.putFile(profile.fileCopyUri);
+        const url = await response.getDownloadURL();
+
         // store user information in firestore
         await firestore().collection('users').doc(res.user.uid).set({
-          name: name,
-          pic: profile,
+          name,
+          url,
           email: res.user.email,
           uid: res.user.uid,
         });
-
-        // UPLOAD USER PIC IN FIREBASE STORAGE
-        await storage()
-          .ref(`profile/${profile.name}`)
-          .putFile(profile.fileCopyUri);
+        // console.log(url);
 
         Alert.alert('Alert', 'Your Account Create Successfuly');
 
@@ -82,13 +83,15 @@ const Signup = () => {
         setShow(false);
         setLoading(false);
       } else {
+        setLoading(true);
         console.log('please enter correct information');
       }
     } catch (error) {
       console.log(error);
+      setLoading(true);
     }
   };
-
+  // console.log(profile);
   return (
     <KeyboardAvoidingView behavior="position">
       <View style={style.container}>

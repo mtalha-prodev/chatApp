@@ -1,14 +1,19 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {useNavigation, StackActions} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 const Splash = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    setTimeout(() => {
-      navigation.dispatch(StackActions.replace('Login'));
-    }, 3000);
+    setTimeout(async () => {
+      const unSubscription = await auth().onAuthStateChanged(user => {
+        const isActive = user !== null ? 'Home' : 'Login';
+        navigation.dispatch(StackActions.replace(isActive));
+      });
+      unSubscription();
+    }, 2000);
   }, []);
 
   return (
