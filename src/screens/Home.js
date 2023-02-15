@@ -21,7 +21,12 @@ const Home = () => {
   // get all users
   const getAllUser = async () => {
     try {
-      const querySnap = await firestore().collection('users').get();
+      const user = await auth().currentUser;
+      console.log(user.uid);
+      const querySnap = await firestore()
+        .collection('users')
+        .where('uid', '!=', user.uid)
+        .get();
 
       const allUsers = querySnap.docs.map(users => users.data());
       setUsers(allUsers);
