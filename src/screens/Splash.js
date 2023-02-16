@@ -7,12 +7,14 @@ const Splash = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    setTimeout(async () => {
-      const unSubscription = await auth().onAuthStateChanged(user => {
+    setTimeout(() => {
+      const unSubscription = auth().onAuthStateChanged(user => {
         const isActive = user !== null ? 'Home' : 'Login';
+        console.log(user);
+        unSubscription();
+        console.log('IS ACTIVE ', isActive);
         navigation.dispatch(StackActions.replace(isActive));
       });
-      unSubscription();
     }, 2000);
   }, []);
 
