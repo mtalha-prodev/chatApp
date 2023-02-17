@@ -65,15 +65,18 @@ const Home = () => {
         renderItem={({item}) => {
           // console.log(item);
           return (
-            <View style={style.cardView}>
-              <Image source={{uri: item.url}} style={style.image} />
-              <View style={{justifyContent: 'space-between'}}>
-                <Text style={[style.text, {fontWeight: 'bold'}]}>
-                  {item.name}
-                </Text>
-                <Text style={style.text}>{item.email}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Chat', {item})}>
+              <View style={style.cardView}>
+                <Image source={{uri: item.url}} style={style.image} />
+                <View style={{justifyContent: 'space-between'}}>
+                  <Text style={[style.text, {fontWeight: 'bold'}]}>
+                    {item.name}
+                  </Text>
+                  <Text style={style.text}>{item.email}</Text>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />

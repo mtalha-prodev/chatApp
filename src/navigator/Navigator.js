@@ -6,6 +6,7 @@ import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
 import {StatusBar, View} from 'react-native';
+import Chat from '../screens/Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,11 @@ const Navigator = () => {
             name="Home"
             component={Home}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={({route}) => ({title: route.params.item.name})}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -75,6 +75,7 @@ const Signup = () => {
         // console.log(url);
 
         Alert.alert('Alert', 'Your Account Create Successfuly');
+        navigation.navigate('Login');
 
         setEmail('');
         setPassword('');
@@ -88,7 +89,7 @@ const Signup = () => {
       }
     } catch (error) {
       console.log(error);
-      setLoading(true);
+      setLoading(false);
     }
   };
   // console.log(profile);

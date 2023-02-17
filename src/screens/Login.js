@@ -39,6 +39,8 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigation.dispatch(StackActions.replace('Login'));
     }
   };
 
