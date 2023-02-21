@@ -40,6 +40,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+      Alert.alert('user not exist');
       navigation.dispatch(StackActions.replace('Login'));
     }
   };

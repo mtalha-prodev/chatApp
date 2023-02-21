@@ -15,14 +15,18 @@ import {useNavigation, StackActions} from '@react-navigation/native';
 
 const Home = () => {
   const [users, setUsers] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const navigation = useNavigation();
+  let user = null;
 
   // get all users
   const getAllUser = async () => {
     try {
-      const user = await auth().currentUser;
-      console.log(user.uid);
+      user = auth().currentUser;
+      setCurrentUser(user.uid);
+      console.log(currentUser);
+
       const querySnap = await firestore()
         .collection('users')
         .where('uid', '!=', user.uid)
@@ -30,6 +34,7 @@ const Home = () => {
 
       const allUsers = querySnap.docs.map(users => users.data());
       setUsers(allUsers);
+
       // console.log(allUsers);
     } catch (error) {
       console.log(error);
@@ -38,8 +43,14 @@ const Home = () => {
 
   const logout = async () => {
     try {
+      await firestore().collection('users').doc(currentUser).update({
+        status: firestore.FieldValue.serverTimestamp(),
+      });
+      console.log(currentUser);
+      setCurrentUser(null);
+      user = null;
       console.log('call singout');
-      await auth().signOut();
+      auth().signOut();
       navigation.dispatch(StackActions.replace('Login'));
       Alert.alert('logout Successfuly !');
     } catch (error) {
@@ -66,7 +77,7 @@ const Home = () => {
           // console.log(item);
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Chat', {item})}>
+              onPress={() => navigation.navigate('Chat', {item, currentUser})}>
               <View style={style.cardView}>
                 <Image source={{uri: item.url}} style={style.image} />
                 <View style={{justifyContent: 'space-between'}}>

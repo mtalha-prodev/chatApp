@@ -2,6 +2,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {useNavigation, StackActions} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Splash = () => {
   const navigation = useNavigation();
@@ -10,10 +11,17 @@ const Splash = () => {
     setTimeout(() => {
       const unSubscription = auth().onAuthStateChanged(user => {
         const isActive = user !== null ? 'Home' : 'Login';
-        console.log(user);
-        unSubscription();
-        console.log('IS ACTIVE ', isActive);
-        navigation.dispatch(StackActions.replace(isActive));
+        if (user !== null) {
+          console.log(user.uid);
+          unSubscription();
+          // console.log('IS ACTIVE ', isActive);
+          navigation.dispatch(StackActions.replace('Home'));
+          firestore().collection('users').doc(user.uid).update({
+            status: 'Online',
+          });
+        } else {
+          navigation.dispatch(StackActions.replace('Login'));
+        }
       });
     }, 2000);
   }, []);

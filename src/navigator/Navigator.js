@@ -5,7 +5,7 @@ import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, View, Text} from 'react-native';
 import Chat from '../screens/Chat';
 
 const Stack = createNativeStackNavigator();
@@ -39,7 +39,14 @@ const Navigator = () => {
           <Stack.Screen
             name="Chat"
             component={Chat}
-            options={({route}) => ({title: route.params.item.name})}
+            options={({route}) => ({
+              title:
+                route.params.item.name,
+                // <View>
+                //   <Text>{route.params.item.name}</Text>
+                //   <Text>{route.params.item.status.toDate().toString()}</Text>
+                // </View>
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>
